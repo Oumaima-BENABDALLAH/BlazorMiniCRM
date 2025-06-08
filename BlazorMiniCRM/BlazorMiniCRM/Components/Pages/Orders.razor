@@ -1,0 +1,96 @@
+﻿@page "/orders"
+
+@rendermode InteractiveServer
+
+@using BlazorMiniCRM.Services
+@using BlazorMiniCRM.Shared.Models
+@using Microsoft.AspNetCore.Components.QuickGrid
+@inject OrderServices OrderService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+
+<h3>Gestion des Commandes</h3>
+
+<div class="mb-4">
+	<button class="btn btn-primary" @onclick="NavigateToAddOrder">Ajouter une nouvelle commande</button>
+</div>
+
+@if (orders == null)
+{
+	<p><em>Chargement des commandes...</em></p>
+}
+else if (!orders.Any())
+{
+	<div class="alert alert-info" role="alert">
+		Aucune commande enregistrée pour le moment.
+	</div>
+}
+else
+{
+	<QuickGrid Items="@orders" Pagination="@pagination" Class="table table-hover table-bordered mt-4">
+		<PropertyColumn Property="@(o => o.Id)" Title="ID" Sortable="true" />
+		<PropertyColumn Property="@(o => o.DateOrder)" Title="Date Commande" Format="dd/MM/yyyy HH:mm" Sortable="true" />
+		<PropertyColumn Property="@(o => o.Montant)" Title="Montant" Format="C2" Sortable="true" />
+		<PropertyColumn Property="@(o => o.Client!.Name)" Title="Client" Sortable="true" />
+
+		<TemplateColumn Title="Actions">
+			<div class="d-flex justify-content-center">
+				<a href="/orders/edit/@context.Id" class="btn btn-sm btn-info me-2">Modifier</a>
+				<button class="btn btn-sm btn-danger" @onclick="() => DeleteOrder(context.Id)">Supprimer</button>
+			</div>
+		</TemplateColumn>
+	</QuickGrid>
+
+	<Paginator State="@pagination" />
+}
+
+@if (!string.IsNullOrEmpty(feedbackMessage))
+{
+	<div class="mt-3 alert @feedbackCssClass">@feedbackMessage</div>
+}
+
+@code {
+	private IQueryable<Order>? orders;
+	private PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
+
+	private string feedbackMessage = string.Empty;
+	private string feedbackCssClass = string.Empty;
+
+	protected override async Task OnInitializedAsync()
+	{
+		await LoadOrdersAsync();
+	}
+
+	private async Task LoadOrdersAsync()
+	{
+		var allOrders = await OrderService.GetOrdersAsync();
+		orders = allOrders?.AsQueryable();
+	}
+
+	private void NavigateToAddOrder()
+	{
+		NavigationManager.NavigateTo("/orders/add");
+	}
+
+	private async Task DeleteOrder(int id)
+	{
+		var confirm = await JSRuntime.InvokeAsync<bool>("confirm", "Êtes-vous sûr de vouloir supprimer cette commande ?");
+		if (confirm)
+		{
+			try
+			{
+				await OrderService.DeleteOrderAsync(id);
+				await LoadOrdersAsync();
+				feedbackMessage = "Commande supprimée avec succès !";
+				feedbackCssClass = "alert-success";
+				StateHasChanged();
+			}
+			catch (Exception ex)
+			{
+				feedbackMessage = $"Erreur lors de la suppression de la commande: {ex.Message}";
+				feedbackCssClass = "alert-danger";
+			}
+		}
+	}
+}
