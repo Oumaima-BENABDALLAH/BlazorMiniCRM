@@ -29,19 +29,7 @@ Ce projet démontre les capacités suivantes de Blazor et .NET 9 :
 -   **QuickGrid** : Un composant de grille de données optimisé pour Blazor, faisant partie de l'écosystème .NET.
 -   **C#** : Le langage de programmation principal utilisé.
 -   **HTML/CSS** : Pour la structure et le style des pages web.
-  ## 📈 Captures d'écran
-
-### Tableau de Bord
-![Tableau de Bord](images/Dashboard.jpg)
-*Un aperçu du tableau de bord principal, affichant les résumés des clients, des commandes et du montant total.*
-
-### Gestion des Clients
-![Gestion des Clients](images/Clients.jpg)
-*La page de gestion des clients, montrant les options pour ajouter de nouveaux clients et une liste des clients existants avec les opérations CRUD.*
-
-### Gestion des Commandes
-![Gestion des Commandes](images/Orders.jpg)
-*La page de gestion des commandes, présentant le composant QuickGrid pour lister les commandes avec leurs détails et les opérations CRUD.*
+  
 
 ## 🚀 Démarrage Rapide
 
