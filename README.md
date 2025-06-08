@@ -32,15 +32,15 @@ Ce projet démontre les capacités suivantes de Blazor et .NET 9 :
   ## 📈 Captures d'écran
 
 ### Tableau de Bord
-![Tableau de Bord](Dashboard.png)
+![Tableau de Bord](E:/BlazorMiniCRM/Dashboard.png)
 *Un aperçu du tableau de bord principal, affichant les résumés des clients, des commandes et du montant total.*
 
 ### Gestion des Clients
-![Gestion des Clients](Clients.png)
+![Gestion des Clients](E:/BlazorMiniCRM/Clients.png)
 *La page de gestion des clients, montrant les options pour ajouter de nouveaux clients et une liste des clients existants avec les opérations CRUD.*
 
 ### Gestion des Commandes
-![Gestion des Commandes](Orders.png)
+![Gestion des Commandes](E:/BlazorMiniCRM/Orders.png)
 *La page de gestion des commandes, présentant le composant QuickGrid pour lister les commandes avec leurs détails et les opérations CRUD.*
 
 ## 🚀 Démarrage Rapide
